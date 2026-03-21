@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Carné Virtual – ESAN</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700&family=Barlow+Condensed:wght@700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #1a1a1a;
+      font-family: 'Barlow', sans-serif;
+      padding: 24px;
+    }
+
+    /* ── Phone ── */
+    .phone {
+      width: min(360px, 90vw);
+      height: min(780px, 95vh);
+      border-radius: 40px;
+      background: #111;
+      box-shadow: 0 30px 80px rgba(0,0,0,.7), inset 0 0 0 1px #333;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* status bar */
+    .status-bar {
+      background: #A80E0E;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 18px;
+      font-size: 12px;
+      color: #fff;
+      font-weight: 600;
+    }
+    .status-bar .left { display: flex; gap: 8px; align-items: center; }
+    .status-bar .right { display: flex; gap: 6px; align-items: center; font-size: 11px; }
+
+    /* header */
+    .app-header {
+      background: #CF1111;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 10px 16px 14px;
+      color: #fff;
+      position: relative;
+    }
+    .app-header .back {  position: absolute; left: 16px;}
+    .app-header h1 { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; letter-spacing: .5px; }
+
+    /* card body */
+    .card-body {
+     background: #f5f5f5;
+  padding: 24px 20px 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  position: relative;
+  overflow: hidden;
+  flex: 1;        /* ocupa todo el espacio entre header y nav */
+    }
+
+    /* ESAN  */
+    .watermark {
+      position: absolute;
+      pointer-events: none;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 85%;
+      opacity: 0.08;       
+      z-index: 0;
+    }
+
+    /* photo */
+    .photo-frame {
+      width: 140px;
+      height: 160px;
+      border: 2.5px solid #C0392B;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #ddd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+    }
+    .photo-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .photo-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      color: #999;
+      font-size: 12px;
+      text-align: center;
+      padding: 8px;
+    }
+    .photo-placeholder svg { opacity: .4; }
+
+    /* clock */
+    .clock-box {
+      border: 2px solid #CF1111;
+      border-radius: 12px;
+      padding: 8px 20px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .clock-box #clock {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 38px;
+      font-weight: 700;
+      color: #25A71B;
+      letter-spacing: 1px;
+      line-height: 1;
+    }
+
+    /* info fields */
+    .info-block {
+      width: 100%;
+      position: relative;
+      z-index: 1;
+    }
+    .field-label {
+      font-size: 11px;
+      color: #999;
+      text-transform: none;
+      margin-bottom: 1px;
+    }
+    .field-value {
+      font-size: 15px;
+      font-weight: 700;
+      color: #1a1a1a;
+      letter-spacing: .3px;
+    }
+
+        /* barcode */
+    .barcode-section {
+        width: 100%;
+        padding-top: 10px;
+        border-top: 1px solid #e0e0e0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        position: relative;
+        z-index: 1;
+    }
+    .barcode {
+        display: flex;
+        gap: 0px;
+        height: 60px;
+        align-items: stretch;
+        width: 100%;
+    }
+    .bar {
+        background: #CF1111;
+        flex: 1;
+    }
+    .bar.thin  { flex: 0.4; }
+    .bar.thick { flex: 1.2; }
+    .bar.gap   { background: transparent; flex: 0.5; }
+    .barcode-number {
+        font-family: 'Barlow Condensed', sans-serif;
+        font-size: 13px;
+        color: #CF1111;
+        letter-spacing: 2px;
+    }
+  </style>
+</head>
+<body>
+
+<div style="display:flex; flex-direction:column; align-items:center;">
+
+  <!-- ── Phone ── -->
+  <div class="phone">
+
+    <!-- status bar -->
+    <div class="status-bar">
+      <div class="left">
+        <span id="sb-time">10:42</span>
+        <span> </span>
+      </div>
+      <div class="right">
+        <span>🔔</span>
+        <span>5G</span>
+        <span>🔋 100%</span>
+      </div>
+    </div>
+
+    <!-- header -->
+    <div class="app-header">
+      <span class="back">🡠</span>
+      <h1>Carné Virtual – Pregrado</h1>
+    </div>
+
+    <!-- card -->
+    <div class="card-body">
+    <img class="watermark" src="mark.png" alt="" />
+      <!-- photo -->
+      <div class="photo-frame">
+        <!--
+          INSTRUCCIÓN: Reemplaza la siguiente línea con tu foto.
+          Ejemplo: <img src="foto.jpg" alt="Foto estudiante" />
+          O usa una URL: <img src="https://..." alt="Foto" />
+        -->
+        <div class="photo-placeholder">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.5">
+            <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- clock -->
+      <div class="clock-box">
+        <div id="clock">--:--:-- --</div>
+      </div>
+
+      <!-- fields -->
+      <div class="info-block">
+        <div class="field-label">Nombres</div>
+        <div class="field-value">AXEL RODRIGO</div>
+      </div>
+
+      <div class="info-block">
+        <div class="field-label">Apellidos</div>
+        <div class="field-value">SANDOVAL RAMOS</div>
+      </div>
+
+      <div class="info-block">
+        <div class="field-label">Carrera</div>
+        <div class="field-value">INGENIERÍA DE SOFTWARE</div>
+      </div>
+
+      <!-- barcode -->
+      <div class="barcode-section">
+        <div class="barcode" id="barcode"></div>
+        <div class="barcode-number">26123456</div>
+      </div>
+    </div>
+
+</div>
+
+<script>
+  // ── Reloj en tiempo real ──
+  function updateClock() {
+    const now = new Date();
+    let h = now.getHours();
+    const m = String(now.getMinutes()).padStart(2, '0');
+    const s = String(now.getSeconds()).padStart(2, '0');
+    const ampm = h >= 12 ? 'p. m.' : 'a. m.';
+    h = h % 12 || 12;
+    document.getElementById('clock').textContent = `${h}:${m}:${s} ${ampm}`;
+
+    // status bar time
+    const sbH = String(now.getHours()).padStart(2,'0');
+    const sbM = String(now.getMinutes()).padStart(2,'0');
+    document.getElementById('sb-time').textContent = `${sbH}:${sbM}`;
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
+
+  // ── Barcode tipo EAN/Code128 visual ──
+    const container = document.getElementById('barcode');
+    const pattern = [
+    1,1,2,1,1,1,2,1,1,1,1,2,1,1,2,1,1,1,1,2,
+    1,2,1,1,1,1,2,1,1,2,1,1,1,2,1,1,1,1,2,1,
+    2,1,1,1,1,2,1,1,2,1,1,1,2,1,1,1,1,2,1,1,
+    1,2,1,1,1,2,1,1,1,1,2,1,2,1,1,1,1,2,1,1,
+    2,1,1,2,1,1,1,1,2,1,1,1,2,1
+    ];
+    pattern.forEach((w, i) => {
+    const bar = document.createElement('div');
+    if (i % 2 === 0) {
+        bar.className = 'bar' + (w === 2 ? ' thick' : w === 1 ? ' thin' : '');
+    } else {
+        bar.className = 'bar gap';
+    }
+    container.appendChild(bar);
+    });
+</script>
+
+</body>
+</html>
