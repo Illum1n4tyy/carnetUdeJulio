@@ -2,7 +2,8 @@
   "name": "Carné ESAN",
   "short_name": "Carné",
   "display": "fullscreen",
-  "start_url": "/",
+  "start_url": "/carnetUdeJulio/",
+  "scope": "/carnetUdeJulio/",
   "background_color": "#1a1a1a",
   "theme_color": "#CF1111"
 }
