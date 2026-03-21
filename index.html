@@ -3,19 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
   <title>Carné Virtual – ESAN</title>
   <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700&family=Barlow+Condensed:wght@700&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #1a1a1a;
-      font-family: 'Barlow', sans-serif;
-      padding: 24px;
+     min-height: 100vh;
+    min-height: 100dvh;   /* ← altura dinámica real en móvil */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #1a1a1a;
+    font-family: 'Barlow', sans-serif;
+    padding: 0;            /* ← quita el padding: 24px */
+    margin: 0;
+    overflow: hidden;
     }
 
     /* ── Phone ── */
@@ -72,6 +77,7 @@
   flex: 1;        /* ocupa todo el espacio entre header y nav */
     }
 
+
     /* ESAN  */
     .watermark {
       position: absolute;
@@ -118,12 +124,12 @@
     /* clock */
     .clock-box {
       border: 2px solid #CF1111;
-      border-radius: 12px;
-      padding: 8px 20px;
-      width: 100%;
-      text-align: center;
-      position: relative;
-      z-index: 1;
+    border-radius: 12px;
+    padding: 8px 20px;
+    width: fit-content;  
+    text-align: center;
+    position: relative;
+    z-index: 1;
     }
     .clock-box #clock {
       font-family: 'Barlow Condensed', sans-serif;
@@ -164,6 +170,7 @@
         gap: 4px;
         position: relative;
         z-index: 1;
+        margin-top: auto;
     }
     .barcode {
         display: flex;
@@ -209,7 +216,7 @@
 
     <!-- header -->
     <div class="app-header">
-      <span class="back">🡠</span>
+      <span class="back">←</span>
       <h1>Carné Virtual – Pregrado</h1>
     </div>
 
@@ -268,7 +275,6 @@
     const m = String(now.getMinutes()).padStart(2, '0');
     const s = String(now.getSeconds()).padStart(2, '0');
     const ampm = h >= 12 ? 'p. m.' : 'a. m.';
-    h = h % 12 || 12;
     document.getElementById('clock').textContent = `${h}:${m}:${s} ${ampm}`;
 
     // status bar time
