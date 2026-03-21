@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <link rel="manifest" href="manifest.json" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="mobile-web-app-capable" content="yes" />
@@ -61,7 +62,7 @@
       color: #fff;
       position: relative;
     }
-    .app-header .back {  position: absolute; left: 16px; font-size: 20px; }
+    .app-header .back {  position: absolute; left: 16px; display:flex; align-items: center; }
     .app-header h1 { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; letter-spacing: .5px; }
 
     /* card body */
@@ -216,7 +217,10 @@
 
     <!-- header -->
     <div class="app-header">
-      <span class="back">&#8592;</span>
+        <span class="back">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+            </span>
       <h1>Carné Virtual – Pregrado</h1>
     </div>
 
